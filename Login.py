@@ -3,19 +3,26 @@ from PIL import ImageTk
 from tkinter import messagebox
 import mysql.connector
 def saveData() :
-    conn = mysql.connector.connect(
-        host='localhost',
-         user='root',
-        password='password30',
-        database='customerdata'
-    )
-    mycursor=conn.cursor()
-    sql='insert into studentreg(username,email,password)values(%s,%s,%s);'
-    #mycursor.execute(sql,(usernameEntry.get(),emailEntry.get(),passwordEntry.get()))
-    data = (usernameEntry.get(), emailEntry.get(), passwordEntry.get())
-    mycursor.execute(sql,data)
-    conn.commit()
-    messagebox.showinfo("Data saved successfully")
+    try:
+         conn = mysql.connector.connect(
+                   host='localhost',
+                    user='root',
+                   password='Sindhuri1@',
+                   database='userdata'
+            )
+    except:
+            messagebox.showerror('Error','Problem in database connection')
+    if(usernameEntry.get()=='' or emailEntry.get()=='' or passwordEntry.get()==''):
+        messagebox.showerror('Error',"All fields are mandatory")
+    else :
+         mycursor = conn.cursor()
+         sql='insert into student(username,email,password)values(%s,%s,%s);'
+         #mycursor.execute(sql,(usernameEntry.get(),emailEntry.get(),passwordEntry.get()))
+         data = (usernameEntry.get(), emailEntry.get(), passwordEntry.get())
+         mycursor.execute(sql,data)
+         conn.commit()
+         messagebox.showinfo('Success',"Data saved successfully")
+
     if(conn):
         print("Success")
       #messagebox.showinfo("Success")
@@ -24,7 +31,7 @@ def saveData() :
        print("Problem in Database Connection")
        #messagebox.showerror("Problem in database")
 window=Tk()
-background=ImageTk.PhotoImage(file="background.jpg")
+background=ImageTk.PhotoImage(file="moon.jpg")
 blabel=Label(window,image=background)
 blabel.grid()
 frame=Frame(window)
